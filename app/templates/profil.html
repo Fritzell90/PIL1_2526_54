@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Profil - IFRI MentorLink</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh;
+            color: white;
+        }
+        .navbar { background-color: rgba(0,0,0,0.3) !important; }
+        .card {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 25px;
+        }
+        .form-control, .form-select {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+        }
+        .form-control:focus, .form-select:focus {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border-color: #e94560;
+            box-shadow: none;
+        }
+        .form-control::placeholder { color: rgba(255,255,255,0.5); }
+        .form-select option { background: #1a1a2e; color: white; }
+        .btn-primary { background-color: #e94560; border: none; }
+        .btn-primary:hover { background-color: #c73652; }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #e94560;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0 auto 20px;
+        }
+        .tag {
+            background: rgba(233,69,96,0.3);
+            border: 1px solid #e94560;
+            border-radius: 20px;
+            padding: 5px 15px;
+            margin: 5px;
+            display: inline-block;
+            font-size: 0.85rem;
+        }
+        .section-title {
+            color: #f5a623;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">🎓 IFRI MentorLink</a>
+            <div class="ms-auto">
+                <a href="/tableau-de-bord" class="btn btn-outline-light btn-sm me-2">Tableau de bord</a>
+                <a href="/deconnexion" class="btn btn-outline-light btn-sm">Déconnexion</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4" style="max-width: 750px;">
+
+        <!-- Avatar et nom -->
+        <div class="card text-center">
+            <div class="avatar">
+                {{ utilisateur.prenom[0] }}{{ utilisateur.nom[0] }}
+            </div>
+            <h3>{{ utilisateur.prenom }} {{ utilisateur.nom }}</h3>
+            <p class="opacity-75">{{ utilisateur.email }} • {{ utilisateur.telephone }}</p>
+        </div>
+
+        <!-- Formulaire de modification -->
+        <div class="card">
+            <h4 class="section-title">✏️ Modifier mon profil</h4>
+            <form method="POST">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Filière</label>
+                        <select name="filiere_id" class="form-select">
+                            <option value="">-- Choisir --</option>
+                            {% for filiere in filieres %}
+                            <option value="{{ filiere.id }}"
+                                {% if utilisateur.filiere_id == filiere.id %}selected{% endif %}>
+                                {{ filiere.code }} - {{ filiere.libelle }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Niveau d'études</label>
+                        <select name="niveau_etudes" class="form-select">
+                            <option value="">-- Choisir --</option>
+                            {% for niveau in ['L1','L2','L3','M1','M2'] %}
+                            <option value="{{ niveau }}"
+                                {% if utilisateur.niveau_etudes == niveau %}selected{% endif %}>
+                                {{ niveau }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Bio courte</label>
+                    <textarea name="bio" class="form-control" rows="3"
+                              placeholder="Parle de toi en quelques mots...">{{ utilisateur.bio or '' }}</textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    💾 Sauvegarder
+                </button>
+            </form>
+        </div>
+
+        <!-- Infos actuelles -->
+        <div class="card">
+            <h4 class="section-title">📋 Mes informations</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Filière :</strong> {{ utilisateur.filiere_id or 'Non renseigné' }}</p>
+                    <p><strong>Niveau :</strong> {{ utilisateur.niveau_etudes or 'Non renseigné' }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Membre depuis :</strong> {{ utilisateur.date_inscription.strftime('%d/%m/%Y') }}</p>
+                    <p><strong>Bio :</strong> {{ utilisateur.bio or 'Non renseigné' }}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

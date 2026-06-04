@@ -249,3 +249,25 @@ def conversation(autre_id):
                          messages=messages,
                          conversation=conv,
                          utilisateur_id=session['utilisateur_id'])
+# Profil utilisateur
+@main.route('/profil', methods=['GET', 'POST'])
+def profil():
+    if 'utilisateur_id' not in session:
+        return redirect(url_for('main.connexion'))
+    
+    utilisateur = Utilisateur.query.get(session['utilisateur_id'])
+    
+    if request.method == 'POST':
+        utilisateur.bio = request.form.get('bio')
+        utilisateur.niveau_etudes = request.form.get('niveau_etudes')
+        utilisateur.filiere_id = request.form.get('filiere_id')
+        
+        db.session.commit()
+        return redirect(url_for('main.profil'))
+    
+    filieres = Filiere.query.all()
+    matieres = Matiere.query.all()
+    return render_template('profil.html', 
+                         utilisateur=utilisateur,
+                         filieres=filieres,
+                         matieres=matieres)
