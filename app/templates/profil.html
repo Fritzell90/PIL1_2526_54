@@ -121,6 +121,45 @@
                     <textarea name="bio" class="form-control" rows="3"
                               placeholder="Parle de toi en quelques mots...">{{ utilisateur.bio or '' }}</textarea>
                 </div>
+                <!-- Compétences -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold">💪 Mes compétences (matières maîtrisées)</label>
+                    <div class="row">
+                        {% for matiere in matieres %}
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" 
+                                    name="competences" value="{{ matiere.id }}"
+                                    id="comp_{{ matiere.id }}"
+                                    {% if matiere.id in competences_ids %}checked{% endif %}>
+                                <label class="form-check-label" for="comp_{{ matiere.id }}">
+                                    {{ matiere.nom }}
+                                </label>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Lacunes -->
+                <div class="mb-4">
+                    <label class="form-label fw-bold">📚 Mes lacunes (matières où j'ai besoin d'aide)</label>
+                    <div class="row">
+                        {% for matiere in matieres %}
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox"
+                                    name="lacunes" value="{{ matiere.id }}"
+                                    id="lac_{{ matiere.id }}"
+                                    {% if matiere.id in lacunes_ids %}checked{% endif %}>
+                                <label class="form-check-label" for="lac_{{ matiere.id }}">
+                                    {{ matiere.nom }}
+                                </label>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-primary">
                     💾 Sauvegarder
                 </button>

@@ -78,3 +78,15 @@ class Disponibilite(db.Model):
     jour_semaine = db.Column(db.String(10), nullable=False)
     heure_debut = db.Column(db.Time, nullable=False)
     heure_fin = db.Column(db.Time, nullable=False)
+class CompetenceUtilisateur(db.Model):
+    __tablename__ = 'competences_utilisateur'
+    id = db.Column(db.Integer, primary_key=True)
+    utilisateur_id = db.Column(db.Integer, db.ForeignKey('utilisateurs.id'), nullable=False)
+    matiere_id = db.Column(db.Integer, db.ForeignKey('matieres.id'), nullable=False)
+    niveau = db.Column(db.SmallInteger)
+
+class LacuneUtilisateur(db.Model):
+    __tablename__ = 'lacunes_utilisateur'
+    id = db.Column(db.Integer, primary_key=True)
+    utilisateur_id = db.Column(db.Integer, db.ForeignKey('utilisateurs.id'), nullable=False)
+    matiere_id = db.Column(db.Integer, db.ForeignKey('matieres.id'), nullable=False)

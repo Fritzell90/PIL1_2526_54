@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
 from app import db, bcrypt
-from app.models import Utilisateur, Filiere, Matiere, Annonce, Matching, Conversation, Message, ParticipantConversation, Disponibilite
+from app.models import Utilisateur, Filiere, Matiere, Annonce, Matching, Conversation, Message, ParticipantConversation, Disponibilite, CompetenceUtilisateur, LacuneUtilisateur
 
 main = Blueprint('main', __name__)
 
@@ -311,6 +311,37 @@ def profil():
                     heure_fin=heures_fin[i]
                 )
                 db.session.add(dispo)
+
+        # Supprimer les anciennes compétences
+        CompetenceUtilisateur.query.filter_by(
+            utilisateur_id=session['utilisateur_id']
+        ).delete()
+
+        # Ajouter les nouvelles compétences
+        competences = request.form.getlist('competences')
+        for matiere_id in competences:
+            if matiere_id:
+                comp = CompetenceUtilisateur(
+                    utilisateur_id=session['utilisateur_id'],
+                    matiere_id=matiere_id,
+                    niveau=5
+                )
+                db.session.add(comp)
+
+        # Supprimer les anciennes lacunes
+        LacuneUtilisateur.query.filter_by(
+            utilisateur_id=session['utilisateur_id']
+        ).delete()
+
+        # Ajouter les nouvelles lacunes
+        lacunes = request.form.getlist('lacunes')
+        for matiere_id in lacunes:
+            if matiere_id:
+                lac = LacuneUtilisateur(
+                    utilisateur_id=session['utilisateur_id'],
+                    matiere_id=matiere_id
+                )
+                db.session.add(lac)
         
         db.session.commit()
         return redirect(url_for('main.profil'))
@@ -320,11 +351,21 @@ def profil():
     disponibilites = Disponibilite.query.filter_by(
         utilisateur_id=session['utilisateur_id']
     ).all()
+    competences = CompetenceUtilisateur.query.filter_by(
+        utilisateur_id=session['utilisateur_id']
+    ).all()
+    lacunes = LacuneUtilisateur.query.filter_by(
+        utilisateur_id=session['utilisateur_id']
+    ).all()
+    competences_ids = [c.matiere_id for c in competences]
+    lacunes_ids = [l.matiere_id for l in lacunes]
     return render_template('profil.html', 
                         utilisateur=utilisateur,
                         filieres=filieres,
                         matieres=matieres,
-                        disponibilites=disponibilites)
+                        disponibilites=disponibilites,
+                        competences_ids=competences_ids,
+                        lacunes_ids=lacunes_ids)
 # Recherche d'annonces
 @main.route('/annonces')
 def liste_annonces():
