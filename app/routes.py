@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
 from app import db, bcrypt
-from app.models import Utilisateur, Filiere, Matiere, Annonce, Matching, Conversation, Message, ParticipantConversation, Disponibilite, CompetenceUtilisateur, LacuneUtilisateur
-
+from app.models import Utilisateur, Filiere, Matiere, Annonce, Matching, Conversation, Message, ParticipantConversation, Disponibilite, CompetenceUtilisateur, LacuneUtilisateur, DisponibiliteAnnonce
 main = Blueprint('main', __name__)
 
 # Page d'accueil
@@ -117,6 +116,23 @@ def annonce():
             description=description
         )
         db.session.add(nouvelle_annonce)
+        db.session.flush()
+
+        # Ajouter les disponibilités de l'annonce
+        jours = request.form.getlist('jour')
+        heures_debut = request.form.getlist('heure_debut')
+        heures_fin = request.form.getlist('heure_fin')
+
+        for i in range(len(jours)):
+            if jours[i] and heures_debut[i] and heures_fin[i]:
+                dispo = DisponibiliteAnnonce(
+                    annonce_id=nouvelle_annonce.id,
+                    jour_semaine=jours[i],
+                    heure_debut=heures_debut[i],
+                    heure_fin=heures_fin[i]
+                )
+                db.session.add(dispo)
+
         db.session.commit()
         return redirect(url_for('main.tableau_de_bord'))
 

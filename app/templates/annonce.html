@@ -122,6 +122,33 @@
                               placeholder="Décris ce que tu cherches ou ce que tu proposes..."></textarea>
                 </div>
 
+                <!-- Disponibilités -->
+                <div class="mb-4">
+                    <label class="form-label fw-bold">🕐 Disponibilités</label>
+                    <div id="dispos">
+                        <div class="dispo-row row mb-2">
+                            <div class="col-md-4">
+                                <select name="jour" class="form-select">
+                                    <option value="">-- Jour --</option>
+                                    {% for jour in ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'] %}
+                                    <option value="{{ jour }}">{{ jour }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="time" name="heure_debut" class="form-control">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="time" name="heure_fin" class="form-control">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-outline-light w-100" 
+                                        onclick="ajouterDispo()">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <button type="submit" class="btn btn-primary btn-lg w-100">
                     Publier l'annonce
                 </button>
@@ -143,6 +170,14 @@
                 this.querySelector('input[type="radio"]').checked = true;
             });
         });
+    </script>
+    <script>
+    function ajouterDispo() {
+        const container = document.getElementById('dispos');
+        const newRow = container.querySelector('.dispo-row').cloneNode(true);
+        newRow.querySelectorAll('select, input').forEach(el => el.value = '');
+        container.appendChild(newRow);
+    }
     </script>
 </body>
 </html>

@@ -90,3 +90,10 @@ class LacuneUtilisateur(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     utilisateur_id = db.Column(db.Integer, db.ForeignKey('utilisateurs.id'), nullable=False)
     matiere_id = db.Column(db.Integer, db.ForeignKey('matieres.id'), nullable=False)
+class DisponibiliteAnnonce(db.Model):
+    __tablename__ = 'disponibilites_annonce'
+    id = db.Column(db.Integer, primary_key=True)
+    annonce_id = db.Column(db.Integer, db.ForeignKey('annonces.id'), nullable=False)
+    jour_semaine = db.Column(db.String(10), nullable=False)
+    heure_debut = db.Column(db.Time, nullable=False)
+    heure_fin = db.Column(db.Time, nullable=False)
