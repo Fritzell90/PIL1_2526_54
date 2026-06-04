@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversation - IFRI MentorLink</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh;
+            color: white;
+        }
+        .navbar { background-color: rgba(0,0,0,0.3) !important; }
+        .chat-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .chat-header {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #e94560;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .messages-box {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            height: 450px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+        }
+        .message.moi {
+            justify-content: flex-end;
+        }
+        .message-bubble {
+            max-width: 70%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            font-size: 0.95rem;
+        }
+        .message.moi .message-bubble {
+            background: #e94560;
+            border-bottom-right-radius: 4px;
+        }
+        .message.autre .message-bubble {
+            background: rgba(255,255,255,0.15);
+            border-bottom-left-radius: 4px;
+        }
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.5;
+            margin-top: 4px;
+        }
+        .message.moi .message-time { text-align: right; }
+        .input-zone {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        .input-zone input {
+            flex-grow: 1;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 25px;
+            padding: 10px 20px;
+            color: white;
+            outline: none;
+        }
+        .input-zone input::placeholder { color: rgba(255,255,255,0.5); }
+        .input-zone input:focus { border-color: #e94560; }
+        .btn-send {
+            background: #e94560;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-send:hover { background: #c73652; transform: scale(1.1); }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">🎓 IFRI MentorLink</a>
+            <div class="ms-auto">
+                <a href="/messagerie" class="btn btn-outline-light btn-sm me-2">
+                    ← Messagerie
+                </a>
+                <a href="/deconnexion" class="btn btn-outline-light btn-sm">Déconnexion</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="chat-container mt-4">
+        <!-- Header -->
+        <div class="chat-header">
+            <div class="avatar me-3">
+                {{ autre_utilisateur.prenom[0] }}{{ autre_utilisateur.nom[0] }}
+            </div>
+            <div>
+                <h5 class="mb-0">
+                    {{ autre_utilisateur.prenom }} {{ autre_utilisateur.nom }}
+                </h5>
+                <small class="opacity-75">{{ autre_utilisateur.email }}</small>
+            </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="messages-box" id="messagesBox">
+            {% if messages %}
+                {% for msg in messages %}
+                <div class="message {% if msg.expediteur_id == utilisateur_id %}moi{% else %}autre{% endif %}">
+                    <div>
+                        <div class="message-bubble">{{ msg.contenu }}</div>
+                        <div class="message-time">
+                            {{ msg.date_envoi.strftime('%d/%m %H:%M') }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="text-center opacity-50 mt-5">
+                    <div style="font-size:2rem">👋</div>
+                    <p>Commence la conversation !</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Zone de saisie -->
+        <form method="POST">
+            <div class="input-zone">
+                <input type="text" name="contenu" 
+                       placeholder="Écris ton message..." 
+                       autocomplete="off" required>
+                <button type="submit" class="btn-send">➤</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Scroll automatique vers le bas
+        const box = document.getElementById('messagesBox');
+        box.scrollTop = box.scrollHeight;
+    </script>
+</body>
+</html>

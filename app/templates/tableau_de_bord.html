@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord - IFRI MentorLink</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh;
+            color: white;
+        }
+        .navbar { background-color: rgba(0,0,0,0.3) !important; }
+        .card {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+        .stat-card {
+            background: rgba(233,69,96,0.2);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+        .stat-number { font-size: 2.5rem; font-weight: bold; color: #e94560; }
+        .btn-primary { background-color: #e94560; border: none; }
+        .btn-primary:hover { background-color: #c73652; }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">🎓 IFRI MentorLink</a>
+            <div class="ms-auto">
+                <span class="me-3">👋 Bonjour, {{ utilisateur.prenom }} !</span>
+                <a href="/deconnexion" class="btn btn-outline-light btn-sm">Déconnexion</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <!-- Bienvenue -->
+        <div class="card mb-4">
+            <h3>👋 Bienvenue, {{ utilisateur.prenom }} {{ utilisateur.nom }} !</h3>
+            <p class="opacity-75 mb-0">Que veux-tu faire aujourd'hui ?</p>
+        </div>
+
+        <!-- Actions rapides -->
+        <div class="row mb-4">
+            <div class="col-md-4 mb-3">
+                <div class="card text-center">
+                    <div style="font-size:2.5rem">📢</div>
+                    <h5 class="mt-2">Publier une annonce</h5>
+                    <p class="opacity-75">Propose ou demande du mentorat</p>
+                    <a href="/annonce" class="btn btn-primary">Publier</a>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card text-center">
+                    <div style="font-size:2.5rem">🤝</div>
+                    <h5 class="mt-2">Trouver un match</h5>
+                    <p class="opacity-75">Découvre tes meilleurs matchs</p>
+                    <a href="/matching" class="btn btn-primary">Voir les matchs</a>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card text-center">
+                    <div style="font-size:2.5rem">💬</div>
+                    <h5 class="mt-2">Messagerie</h5>
+                    <p class="opacity-75">Tes conversations en cours</p>
+                    <a href="/messagerie" class="btn btn-primary">Ouvrir</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profil -->
+        <div class="card">
+            <h5>👤 Mon profil</h5>
+            <hr style="border-color: rgba(255,255,255,0.2)">
+            <p><strong>Email :</strong> {{ utilisateur.email }}</p>
+            <p><strong>Téléphone :</strong> {{ utilisateur.telephone }}</p>
+            <p><strong>Niveau :</strong> {{ utilisateur.niveau_etudes or 'Non renseigné' }}</p>
+            <p class="mb-0"><strong>Membre depuis :</strong> {{ utilisateur.date_inscription.strftime('%d/%m/%Y') }}</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
