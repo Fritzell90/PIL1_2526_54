@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier mot de passe - IFRI MentorLink</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .card {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            backdrop-filter: blur(10px);
+        }
+        .form-control {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+        }
+        .form-control:focus {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border-color: #e94560;
+            box-shadow: none;
+        }
+        .form-control::placeholder { color: rgba(255,255,255,0.5); }
+        .btn-primary { background-color: #e94560; border: none; width: 100%; }
+        .btn-primary:hover { background-color: #c73652; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h3 class="text-center mb-4">🔒 Modifier mon mot de passe</h3>
+
+        {% if message %}
+        <div class="alert alert-success">{{ message }}</div>
+        {% endif %}
+
+        {% if erreur %}
+        <div class="alert alert-danger">{{ erreur }}</div>
+        {% endif %}
+
+        <form method="POST">
+            <div class="mb-3">
+                <label class="form-label">Ancien mot de passe</label>
+                <input type="password" name="ancien_mot_de_passe" class="form-control"
+                       placeholder="Ton ancien mot de passe" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Nouveau mot de passe</label>
+                <input type="password" name="nouveau_mot_de_passe" class="form-control"
+                       placeholder="Ton nouveau mot de passe" required>
+            </div>
+            <div class="mb-4">
+                <label class="form-label">Confirmer le nouveau mot de passe</label>
+                <input type="password" name="confirmation" class="form-control"
+                       placeholder="Confirme ton nouveau mot de passe" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg">
+                🔒 Modifier le mot de passe
+            </button>
+        </form>
+
+        <p class="text-center mt-3">
+            <a href="/profil" style="color: rgba(255,255,255,0.6);">← Retour au profil</a>
+        </p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

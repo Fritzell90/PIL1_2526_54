@@ -352,3 +352,32 @@ def liste_annonces():
                          matieres=matieres,
                          type_filtre=type_filtre,
                          matiere_filtre=matiere_filtre)
+# Modification du mot de passe
+@main.route('/modifier-mot-de-passe', methods=['GET', 'POST'])
+def modifier_mot_de_passe():
+    if 'utilisateur_id' not in session:
+        return redirect(url_for('main.connexion'))
+    
+    message = None
+    erreur = None
+    
+    if request.method == 'POST':
+        ancien = request.form.get('ancien_mot_de_passe')
+        nouveau = request.form.get('nouveau_mot_de_passe')
+        confirmation = request.form.get('confirmation')
+        
+        utilisateur = Utilisateur.query.get(session['utilisateur_id'])
+        
+        if not bcrypt.check_password_hash(utilisateur.mot_de_passe_hash, ancien):
+            erreur = "Ancien mot de passe incorrect !"
+        elif nouveau != confirmation:
+            erreur = "Les nouveaux mots de passe ne correspondent pas !"
+        elif len(nouveau) < 6:
+            erreur = "Le mot de passe doit contenir au moins 6 caractères !"
+        else:
+            utilisateur.mot_de_passe_hash = bcrypt.generate_password_hash(nouveau).decode('utf-8')
+            db.session.commit()
+            message = "Mot de passe modifié avec succès ! 🎉"
+    
+    return render_template('modifier_mot_de_passe.html', 
+                         message=message, erreur=erreur)
