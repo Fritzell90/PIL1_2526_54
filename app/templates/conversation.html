@@ -166,6 +166,31 @@
         // Scroll automatique vers le bas
         const box = document.getElementById('messagesBox');
         box.scrollTop = box.scrollHeight;
+
+        // Rafraîchissement automatique toutes les 5 secondes
+        setInterval(function() {
+            fetch(window.location.href)
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const newMessages = doc.getElementById('messagesBox');
+                    const currentMessages = document.getElementById('messagesBox');
+                    
+                    if (newMessages.innerHTML !== currentMessages.innerHTML) {
+                        currentMessages.innerHTML = newMessages.innerHTML;
+                        currentMessages.scrollTop = currentMessages.scrollHeight;
+                    }
+                });
+        }, 5000);
+
+        // Envoyer message avec Entrée
+        document.querySelector('input[name="contenu"]').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                this.closest('form').submit();
+            }
+        });
     </script>
 </body>
 </html>
