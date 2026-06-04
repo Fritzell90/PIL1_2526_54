@@ -120,7 +120,7 @@
             <div class="card">
                 <div class="d-flex align-items-start">
                     <div class="avatar me-3">
-                        {{ annonce.utilisateur_id }}
+                        {{ annonce.utilisateur.prenom[0] }}{{ annonce.utilisateur.nom[0] }}
                     </div>
                     <div class="flex-grow-1">
                         <div class="d-flex justify-content-between align-items-center mb-2">
@@ -135,6 +135,9 @@
                                 {{ annonce.date_creation.strftime('%d/%m/%Y') }}
                             </small>
                         </div>
+                        <p class="mb-1 opacity-75">
+                            👤 {{ annonce.utilisateur.prenom }} {{ annonce.utilisateur.nom }}
+                        </p>
                         <h5 class="mt-2">
                             📚 {{ annonce.matiere.nom if annonce.matiere else 'Matière inconnue' }}
                         </h5>

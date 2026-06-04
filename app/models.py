@@ -40,6 +40,7 @@ class Annonce(db.Model):
     est_active = db.Column(db.Boolean, default=True)
     date_creation = db.Column(db.DateTime, default=datetime.utcnow)
     matiere = db.relationship('Matiere', backref='annonces')
+    utilisateur = db.relationship('Utilisateur', backref='annonces')
 
 class Matching(db.Model):
     __tablename__ = 'matchings'
