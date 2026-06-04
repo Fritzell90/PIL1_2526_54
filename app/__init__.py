@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_socketio import SocketIO
@@ -23,5 +23,9 @@ def create_app():
     # Enregistrement des routes
     from app.routes import main
     app.register_blueprint(main)
+
+    @app.errorhandler(404)
+    def page_non_trouvee(e):
+        return render_template('404.html'), 404
     
     return app
