@@ -98,9 +98,17 @@
                             <div class="score-fill" style="width: {{ match.score }}%"></div>
                         </div>
 
-                        <p class="opacity-75 mb-3">
+                        <p class="opacity-75 mb-2">
                             📧 {{ match.utilisateur.email }}
                         </p>
+                        <div class="mb-3">
+                            {% for raison in match.raisons %}
+                            <span style="background:rgba(233,69,96,0.2); border:1px solid #e94560; 
+                                        border-radius:20px; padding:3px 10px; font-size:0.8rem; margin:3px;">
+                                ✓ {{ raison }}
+                            </span>
+                            {% endfor %}
+                        </div>
 
                         <!-- Bouton contacter -->
                         <a href="/conversation/{{ match.utilisateur.id }}" 

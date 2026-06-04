@@ -119,29 +119,39 @@ def matching():
     matchs = []
     for autre in tous_utilisateurs:
         score = 0
-        
-        # Même filière = +40 points
+        raisons = []
+
+        # Même filière = +30 points
         if utilisateur.filiere_id and autre.filiere_id:
             if utilisateur.filiere_id == autre.filiere_id:
-                score += 40
-        
-        # Même niveau = +30 points
+                score += 30
+                raisons.append("Même filière")
+
+        # Même niveau = +20 points
         if utilisateur.niveau_etudes and autre.niveau_etudes:
             if utilisateur.niveau_etudes == autre.niveau_etudes:
-                score += 30
-        
-        # A des annonces actives = +30 points
+                score += 20
+                raisons.append("Même niveau")
+
+        # A des annonces actives = +25 points
         annonces = Annonce.query.filter_by(
             utilisateur_id=autre.id,
             est_active=True
         ).count()
         if annonces > 0:
-            score += 30
-        
+            score += 25
+            raisons.append(f"{annonces} annonce(s) active(s)")
+
+        # Profil complet = +25 points
+        if autre.bio and autre.filiere_id and autre.niveau_etudes:
+            score += 25
+            raisons.append("Profil complet")
+
         if score > 0:
             matchs.append({
                 'utilisateur': autre,
-                'score': score
+                'score': min(score, 100),
+                'raisons': raisons
             })
     
     # Trier par score décroissant
