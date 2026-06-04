@@ -6,35 +6,97 @@
     <title>IFRI MentorLink</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
             min-height: 100vh;
             color: white;
+            font-family: 'Segoe UI', sans-serif;
         }
-        .navbar { background-color: rgba(0,0,0,0.3) !important; }
-        .hero { padding: 100px 0; text-align: center; }
-        .hero h1 { font-size: 3rem; font-weight: bold; }
-        .hero p { font-size: 1.2rem; opacity: 0.8; }
-        .btn-primary { background-color: #e94560; border: none; }
-        .btn-primary:hover { background-color: #c73652; }
-        .btn-outline-light:hover { background-color: white; color: #1a1a2e; }
-        .feature-card {
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 30px;
+        .navbar { background-color: rgba(0,0,0,0.3) !important; backdrop-filter: blur(10px); }
+        .hero {
+            padding: 120px 0 80px;
             text-align: center;
-            margin: 10px;
+            position: relative;
         }
-        .feature-icon { font-size: 3rem; margin-bottom: 15px; }
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #fff, #e94560);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p { font-size: 1.2rem; opacity: 0.8; max-width: 600px; margin: 0 auto; }
+        .btn-primary { background-color: #e94560; border: none; padding: 12px 30px; border-radius: 30px; }
+        .btn-primary:hover { background-color: #c73652; transform: translateY(-2px); }
+        .btn-outline-light { border-radius: 30px; padding: 12px 30px; }
+        .feature-card {
+            background: rgba(255,255,255,0.07);
+            border-radius: 20px;
+            padding: 35px 25px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid rgba(255,255,255,0.1);
+            height: 100%;
+        }
+        .feature-card:hover {
+            background: rgba(255,255,255,0.12);
+            transform: translateY(-8px);
+            border-color: #e94560;
+        }
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        .stats-section {
+            background: rgba(233,69,96,0.15);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 60px 0;
+            border: 1px solid rgba(233,69,96,0.3);
+        }
+        .stat-item { text-align: center; }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #e94560;
+        }
+        .how-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 4px solid #e94560;
+            margin-bottom: 20px;
+        }
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: #e94560;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+        footer {
+            background: rgba(0,0,0,0.3);
+            padding: 30px 0;
+            text-align: center;
+            opacity: 0.7;
+            margin-top: 60px;
+        }
     </style>
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="/">🎓 IFRI MentorLink</a>
-            <div class="ms-auto">
-                <a href="/connexion" class="btn btn-outline-light me-2">Connexion</a>
+            <a class="navbar-brand fw-bold fs-4" href="/">🎓 IFRI MentorLink</a>
+            <div class="ms-auto d-flex gap-2">
+                <a href="/connexion" class="btn btn-outline-light">Connexion</a>
                 <a href="/inscription" class="btn btn-primary">S'inscrire</a>
             </div>
         </div>
@@ -42,39 +104,136 @@
 
     <!-- Hero -->
     <div class="hero container">
-        <h1>🤝 Connectons les esprits de l'IFRI</h1>
-        <p class="mt-3 mb-4">Trouve un mentor ou deviens mentor pour tes pairs.<br>
-        Partage tes compétences, comble tes lacunes.</p>
-        <a href="/inscription" class="btn btn-primary btn-lg me-3">Commencer maintenant</a>
-        <a href="/connexion" class="btn btn-outline-light btn-lg">Se connecter</a>
+        <h1>Connectons les esprits<br>de l'IFRI 🤝</h1>
+        <p class="mt-4 mb-5">
+            Trouve un mentor ou deviens mentor pour tes pairs.<br>
+            Partage tes compétences, comble tes lacunes, progresse ensemble.
+        </p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="/inscription" class="btn btn-primary btn-lg">
+                🚀 Commencer gratuitement
+            </a>
+            <a href="/connexion" class="btn btn-outline-light btn-lg">
+                Se connecter
+            </a>
+        </div>
     </div>
 
-    <!-- Features -->
-    <div class="container pb-5">
-        <div class="row justify-content-center">
-            <div class="col-md-4">
-                <div class="feature-card">
-                    <div class="feature-icon">👤</div>
-                    <h4>Crée ton profil</h4>
-                    <p>Renseigne tes compétences, ta filière et tes disponibilités.</p>
+    <div class="container">
+
+        <!-- Stats -->
+        <div class="stats-section">
+            <div class="row">
+                <div class="col-md-3 stat-item mb-3">
+                    <div class="stat-number">5</div>
+                    <p class="opacity-75">Filières connectées</p>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-card">
-                    <div class="feature-icon">🤖</div>
-                    <h4>Matching intelligent</h4>
-                    <p>Notre algorithme trouve les meilleures paires mentor-mentoré.</p>
+                <div class="col-md-3 stat-item mb-3">
+                    <div class="stat-number">15+</div>
+                    <p class="opacity-75">Matières disponibles</p>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-card">
-                    <div class="feature-icon">💬</div>
-                    <h4>Messagerie intégrée</h4>
-                    <p>Communique en temps réel avec ton mentor ou mentoré.</p>
+                <div class="col-md-3 stat-item mb-3">
+                    <div class="stat-number">100%</div>
+                    <p class="opacity-75">Gratuit pour les étudiants IFRI</p>
+                </div>
+                <div class="col-md-3 stat-item mb-3">
+                    <div class="stat-number">🤖</div>
+                    <p class="opacity-75">Matching intelligent</p>
                 </div>
             </div>
         </div>
+
+        <!-- Features -->
+        <h2 class="text-center mb-5">Pourquoi IFRI MentorLink ? ✨</h2>
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <span class="feature-icon">👤</span>
+                    <h4>Profil personnalisé</h4>
+                    <p class="opacity-75">Renseigne tes compétences, ta filière et tes disponibilités pour un matching optimal.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <span class="feature-icon">🤖</span>
+                    <h4>Matching intelligent</h4>
+                    <p class="opacity-75">Notre algorithme trouve automatiquement les meilleures paires mentor-mentoré selon tes besoins.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <span class="feature-icon">💬</span>
+                    <h4>Messagerie intégrée</h4>
+                    <p class="opacity-75">Communique en temps réel avec ton mentor ou mentoré directement dans l'application.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <span class="feature-icon">📢</span>
+                    <h4>Annonces de mentorat</h4>
+                    <p class="opacity-75">Publie des offres ou des demandes de mentorat ciblant des matières spécifiques.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <span class="feature-icon">🔒</span>
+                    <h4>Sécurisé</h4>
+                    <p class="opacity-75">Tes données sont protégées avec des mots de passe hashés et une authentification sécurisée.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <span class="feature-icon">🎓</span>
+                    <h4>Pour les étudiants IFRI</h4>
+                    <p class="opacity-75">Conçu spécialement pour les étudiants de l'IFRI — IA, GL, IM, SI, SE&IoT.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comment ça marche -->
+        <h2 class="text-center mb-5">Comment ça marche ? 🚀</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="how-card">
+                    <div class="step-number">1</div>
+                    <h5>Crée ton profil</h5>
+                    <p class="opacity-75 mb-0">Inscris-toi et renseigne tes compétences, ta filière et tes disponibilités.</p>
+                </div>
+                <div class="how-card">
+                    <div class="step-number">2</div>
+                    <h5>Publie une annonce</h5>
+                    <p class="opacity-75 mb-0">Propose du mentorat dans tes matières fortes ou demande de l'aide.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="how-card">
+                    <div class="step-number">3</div>
+                    <h5>Trouve ton match</h5>
+                    <p class="opacity-75 mb-0">L'algorithme te propose les meilleurs profils compatibles avec un score.</p>
+                </div>
+                <div class="how-card">
+                    <div class="step-number">4</div>
+                    <h5>Commence le mentorat</h5>
+                    <p class="opacity-75 mb-0">Contacte ton match via la messagerie et organise vos sessions.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA final -->
+        <div class="text-center my-5 py-4">
+            <h2 class="mb-4">Prêt à commencer ? 🎯</h2>
+            <a href="/inscription" class="btn btn-primary btn-lg">
+                🚀 Rejoindre IFRI MentorLink
+            </a>
+        </div>
+
     </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>🎓 IFRI MentorLink — Projet intégrateur PIL1 2025-2026</p>
+        <p>Université d'Abomey-Calavi • Institut de Formation et de Recherche en Informatique</p>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
