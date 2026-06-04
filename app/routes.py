@@ -141,30 +141,46 @@ def matching():
         score = 0
         raisons = []
 
-        # Même filière = +30 points
+        # Même filière = +20 points
         if utilisateur.filiere_id and autre.filiere_id:
             if utilisateur.filiere_id == autre.filiere_id:
-                score += 30
+                score += 20
                 raisons.append("Même filière")
 
-        # Même niveau = +20 points
+        # Même niveau = +10 points
         if utilisateur.niveau_etudes and autre.niveau_etudes:
             if utilisateur.niveau_etudes == autre.niveau_etudes:
-                score += 20
+                score += 10
                 raisons.append("Même niveau")
 
-        # A des annonces actives = +25 points
+        # Compétences de l'autre = lacunes de l'utilisateur = +30 points
+        mes_lacunes = LacuneUtilisateur.query.filter_by(
+            utilisateur_id=session['utilisateur_id']
+        ).all()
+        mes_lacunes_ids = [l.matiere_id for l in mes_lacunes]
+            
+        ses_competences = CompetenceUtilisateur.query.filter_by(
+            utilisateur_id=autre.id
+        ).all()
+        ses_competences_ids = [c.matiere_id for c in ses_competences]
+            
+        matieres_communes = set(mes_lacunes_ids) & set(ses_competences_ids)
+        if matieres_communes:
+            score += min(len(matieres_communes) * 15, 30)
+            raisons.append(f"{len(matieres_communes)} matière(s) en commun")
+
+        # A des annonces actives = +20 points
         annonces = Annonce.query.filter_by(
             utilisateur_id=autre.id,
             est_active=True
         ).count()
         if annonces > 0:
-            score += 25
+            score += 20
             raisons.append(f"{annonces} annonce(s) active(s)")
 
-        # Profil complet = +25 points
+        # Profil complet = +20 points
         if autre.bio and autre.filiere_id and autre.niveau_etudes:
-            score += 25
+            score += 20
             raisons.append("Profil complet")
 
         if score > 0:
@@ -173,7 +189,7 @@ def matching():
                 'score': min(score, 100),
                 'raisons': raisons
             })
-    
+
     # Trier par score décroissant
     matchs.sort(key=lambda x: x['score'], reverse=True)
     
