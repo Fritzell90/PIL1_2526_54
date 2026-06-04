@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
 from app import db, bcrypt
-from app.models import Utilisateur, Filiere, Matiere, Annonce, Matching, Conversation, Message, ParticipantConversation
+from app.models import Utilisateur, Filiere, Matiere, Annonce, Matching, Conversation, Message, ParticipantConversation, Disponibilite
 
 main = Blueprint('main', __name__)
 
@@ -292,15 +292,39 @@ def profil():
         utilisateur.niveau_etudes = request.form.get('niveau_etudes')
         utilisateur.filiere_id = request.form.get('filiere_id')
         
+        # Supprimer les anciennes disponibilités
+        Disponibilite.query.filter_by(
+            utilisateur_id=session['utilisateur_id']
+        ).delete()
+        
+        # Ajouter les nouvelles disponibilités
+        jours = request.form.getlist('jour')
+        heures_debut = request.form.getlist('heure_debut')
+        heures_fin = request.form.getlist('heure_fin')
+        
+        for i in range(len(jours)):
+            if jours[i] and heures_debut[i] and heures_fin[i]:
+                dispo = Disponibilite(
+                    utilisateur_id=session['utilisateur_id'],
+                    jour_semaine=jours[i],
+                    heure_debut=heures_debut[i],
+                    heure_fin=heures_fin[i]
+                )
+                db.session.add(dispo)
+        
         db.session.commit()
         return redirect(url_for('main.profil'))
     
     filieres = Filiere.query.all()
     matieres = Matiere.query.all()
+    disponibilites = Disponibilite.query.filter_by(
+        utilisateur_id=session['utilisateur_id']
+    ).all()
     return render_template('profil.html', 
-                         utilisateur=utilisateur,
-                         filieres=filieres,
-                         matieres=matieres)
+                        utilisateur=utilisateur,
+                        filieres=filieres,
+                        matieres=matieres,
+                        disponibilites=disponibilites)
 # Recherche d'annonces
 @main.route('/annonces')
 def liste_annonces():

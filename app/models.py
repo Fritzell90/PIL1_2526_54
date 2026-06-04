@@ -70,3 +70,10 @@ class ParticipantConversation(db.Model):
     conversation_id = db.Column(db.Integer, db.ForeignKey('conversations.id'), nullable=False)
     utilisateur_id = db.Column(db.Integer, db.ForeignKey('utilisateurs.id'), nullable=False)
     date_rejoins = db.Column(db.DateTime, default=datetime.utcnow)
+class Disponibilite(db.Model):
+    __tablename__ = 'disponibilites'
+    id = db.Column(db.Integer, primary_key=True)
+    utilisateur_id = db.Column(db.Integer, db.ForeignKey('utilisateurs.id'), nullable=False)
+    jour_semaine = db.Column(db.String(10), nullable=False)
+    heure_debut = db.Column(db.Time, nullable=False)
+    heure_fin = db.Column(db.Time, nullable=False)
