@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport - IFRI MentorLink</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #0f0f1a; color: white; font-family: 'Segoe UI', sans-serif; }
+        .navbar { background: rgba(0,0,0,0.5) !important; }
+        .section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 4px solid #e94560;
+        }
+        h2 { color: #e94560; }
+        h3 { color: #f5a623; }
+        .membre-card {
+            background: rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .badge-filiere {
+            background: #e94560;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        table { color: white; }
+        table th { color: #f5a623; }
+        code {
+            background: rgba(255,255,255,0.1);
+            padding: 2px 8px;
+            border-radius: 5px;
+            color: #f5a623;
+        }
+        pre {
+            background: rgba(0,0,0,0.4);
+            padding: 20px;
+            border-radius: 10px;
+            color: #f5a623;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark">
+    <div class="container">
+        <span class="navbar-brand fw-bold fs-4">🎓 IFRI MentorLink — Rapport de Projet</span>
+    </div>
+</nav>
+
+<div class="container py-5">
+
+    <!-- 1. Présentation du groupe -->
+    <div class="section">
+        <h2>1. Présentation du groupe</h2>
+        <p><strong>Nom du groupe :</strong> PIL1_2526_54</p>
+        <p><strong>Nombre de membres :</strong> 7 étudiants</p>
+        <p><strong>Université :</strong> Université d'Abomey-Calavi (UAC)</p>
+        <p><strong>Établissement :</strong> Institut de Formation et de Recherche en Informatique (IFRI)</p>
+        <p><strong>Année académique :</strong> 2025-2026</p>
+
+        <h3 class="mt-4">Membres du groupe</h3>
+<div class="membre-card">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h5 class="mb-1">Fritzell AHOUANGNANON</h5>
+            <p class="mb-1 opacity-75">Rôle : Chef de projet / Développeur Backend</p>
+            <p class="mb-0 opacity-75">Contributions : Architecture Flask, base de données, algorithme de matching</p>
+        </div>
+        <span class="badge-filiere">SI</span>
+    </div>
+</div>
+<div class="membre-card">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h5 class="mb-1">BADE Kerel</h5>
+            <p class="mb-1 opacity-75">Rôle : Développeur Frontend</p>
+            <p class="mb-0 opacity-75">Contributions : Interfaces utilisateur</p>
+        </div>
+        <span class="badge-filiere">SI</span>
+    </div>
+</div>
+<div class="membre-card">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h5 class="mb-1">FERLY Yaris</h5>
+            <p class="mb-1 opacity-75">Rôle : Développeur Frontend</p>
+            <p class="mb-0 opacity-75">Contributions : Interfaces utilisateur</p>
+        </div>
+        <span class="badge-filiere">GL</span>
+    </div>
+</div>
+<div class="membre-card">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h5 class="mb-1">HOUEDANOU Robert</h5>
+            <p class="mb-1 opacity-75">Rôle : Développeur Backend</p>
+            <p class="mb-0 opacity-75">Contributions : Routes et logique métier</p>
+        </div>
+        <span class="badge-filiere">GL</span>
+    </div>
+</div>
+<div class="membre-card">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h5 class="mb-1">HOUNGUE Brieuc</h5>
+            <p class="mb-1 opacity-75">Rôle : Développeur Base de données</p>
+            <p class="mb-0 opacity-75">Contributions : Schéma SQL, requêtes</p>
+        </div>
+        <span class="badge-filiere">IA</span>
+    </div>
+</div>
+<div class="membre-card">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h5 class="mb-1">SOKENOU Emmanuela</h5>
+            <p class="mb-1 opacity-75">Rôle : Développeur Algorithme</p>
+            <p class="mb-0 opacity-75">Contributions : Algorithme de matching</p>
+        </div>
+        <span class="badge-filiere">IA</span>
+    </div>
+</div>
+<div class="membre-card">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h5 class="mb-1">VOGNITO Paterne</h5>
+            <p class="mb-1 opacity-75">Rôle : Testeur / Documentation</p>
+            <p class="mb-0 opacity-75">Contributions : Tests, rapport, documentation</p>
+        </div>
+        <span class="badge-filiere">IA</span>
+    </div>
+</div>
+
+    <!-- 2. Mode de fonctionnement -->
+    <div class="section">
+        <h2>2. Mode de fonctionnement interne</h2>
+        <p>Le groupe a travaillé de manière collaborative en utilisant les outils suivants :</p>
+        <ul>
+            <li><strong>Git & GitHub</strong> : gestion du code source et collaboration</li>
+            <li><strong>Trello</strong> : gestion des tâches et suivi de l'avancement</li>
+            <li><strong>WhatsApp</strong> : communication rapide entre membres</li>
+        </ul>
+        <h3>Répartition des tâches</h3>
+        <table class="table table-dark table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>Membre</th>
+                    <th>Tâches</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Fritzell AHOUANGNANON</td>
+                    <td>Backend Flask, BDD PostgreSQL, Algorithme de matching</td>
+                </tr>
+                <!-- Ajoute les autres membres -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 3. Description de la conception -->
+    <div class="section">
+        <h2>3. Description de la conception</h2>
+
+        <h3>Structure du projet</h3>
+        <pre>
+PIL1_2526_54/
+├── app/
+│   ├── __init__.py      ← Configuration Flask
+│   ├── models.py        ← Modèles de la BDD
+│   ├── routes.py        ← Routes et logique métier
+│   ├── static/          ← CSS, JS, images
+│   └── templates/       ← Pages HTML
+│       ├── index.html
+│       ├── connexion.html
+│       ├── inscription.html
+│       ├── tableau_de_bord.html
+│       ├── annonce.html
+│       ├── matching.html
+│       ├── messagerie.html
+│       └── conversation.html
+├── run.py               ← Point d'entrée
+├── rapport.html         ← Ce rapport
+└── ifri_mentorlink.sql  ← Structure BDD
+        </pre>
+
+        <h3>Architecture</h3>
+        <p>L'application utilise une architecture <strong>client-serveur</strong> :</p>
+        <ul>
+            <li><strong>Frontend</strong> : HTML, CSS, Bootstrap 5, JavaScript</li>
+            <li><strong>Backend</strong> : Python 3.14 avec Flask</li>
+            <li><strong>Base de données</strong> : PostgreSQL</li>
+            <li><strong>ORM</strong> : SQLAlchemy</li>
+            <li><strong>Messagerie temps réel</strong> : Flask-SocketIO</li>
+        </ul>
+
+        <h3>Base de données</h3>
+        <p>La base de données contient <strong>11 tables</strong> :</p>
+        <table class="table table-dark table-bordered mt-3">
+            <thead>
+                <tr><th>Table</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>utilisateurs</td><td>Comptes et profils des utilisateurs</td></tr>
+                <tr><td>filieres</td><td>Filières de l'IFRI (IA, GL, IM, SI, SE&IoT)</td></tr>
+                <tr><td>matieres</td><td>Matières enseignées à l'IFRI</td></tr>
+                <tr><td>competences_utilisateur</td><td>Compétences de chaque utilisateur</td></tr>
+                <tr><td>lacunes_utilisateur</td><td>Lacunes de chaque utilisateur</td></tr>
+                <tr><td>disponibilites</td><td>Disponibilités horaires</td></tr>
+                <tr><td>annonces</td><td>Offres et demandes de mentorat</td></tr>
+                <tr><td>disponibilites_annonce</td><td>Disponibilités liées aux annonces</td></tr>
+                <tr><td>matchings</td><td>Paires mentor-mentoré avec score</td></tr>
+                <tr><td>conversations</td><td>Conversations de messagerie</td></tr>
+                <tr><td>messages</td><td>Messages échangés</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Algorithme de matching</h3>
+        <p>L'algorithme calcule un score de compatibilité basé sur :</p>
+        <ul>
+            <li>Même filière → <strong>+40 points</strong></li>
+            <li>Même niveau d'études → <strong>+30 points</strong></li>
+            <li>Annonces actives → <strong>+30 points</strong></li>
+        </ul>
+    </div>
+
+    <!-- 4. Instructions de déploiement -->
+    <div class="section">
+        <h2>4. Instructions de déploiement</h2>
+
+        <h3>Prérequis</h3>
+        <ul>
+            <li>Python 3.14+</li>
+            <li>PostgreSQL 16+</li>
+            <li>Git</li>
+        </ul>
+
+        <h3>Étapes</h3>
+        <ol>
+            <li>Cloner le dépôt :
+                <pre>git clone https://github.com/Fritzell90/PIL1_2526_54.git
+cd PIL1_2526_54</pre>
+            </li>
+            <li>Créer et activer l'environnement virtuel :
+                <pre>py -m venv venv
+venv\Scripts\activate</pre>
+            </li>
+            <li>Installer les dépendances :
+                <pre>pip install flask flask-sqlalchemy psycopg2-binary flask-bcrypt flask-socketio</pre>
+            </li>
+            <li>Créer la base de données PostgreSQL :
+                <pre>psql -U postgres -c "CREATE DATABASE ifri_mentorlink;"
+psql -U postgres -d ifri_mentorlink -f ifri_mentorlink.sql</pre>
+            </li>
+            <li>Configurer la connexion dans <code>app/__init__.py</code> avec votre mot de passe PostgreSQL</li>
+            <li>Lancer l'application :
+                <pre>py run.py</pre>
+            </li>
+            <li>Ouvrir dans le navigateur : <code>http://127.0.0.1:5000</code></li>
+        </ol>
+    </div>
+
+    <!-- 5. Manuel d'utilisation -->
+    <div class="section">
+        <h2>5. Manuel d'utilisation</h2>
+
+        <h3>🔐 Inscription</h3>
+        <ol>
+            <li>Cliquer sur <strong>"S'inscrire"</strong> sur la page d'accueil</li>
+            <li>Remplir le formulaire (nom, prénom, email, téléphone, mot de passe)</li>
+            <li>Choisir sa filière et son niveau d'études</li>
+            <li>Cliquer sur <strong>"Créer mon compte"</strong></li>
+        </ol>
+
+        <h3>🔑 Connexion</h3>
+        <ol>
+            <li>Cliquer sur <strong>"Connexion"</strong></li>
+            <li>Entrer son email ou téléphone et mot de passe</li>
+        </ol>
+
+        <h3>📢 Publier une annonce</h3>
+        <ol>
+            <li>Dans le tableau de bord, cliquer sur <strong>"Publier"</strong></li>
+            <li>Choisir le type (offre ou demande)</li>
+            <li>Sélectionner la matière et le format</li>
+            <li>Cliquer sur <strong>"Publier l'annonce"</strong></li>
+        </ol>
+
+        <h3>🤝 Trouver un match</h3>
+        <ol>
+            <li>Cliquer sur <strong>"Voir les matchs"</strong></li>
+            <li>Consulter les profils compatibles avec leur score</li>
+            <li>Cliquer sur <strong>"Contacter"</strong> pour démarrer une conversation</li>
+        </ol>
+
+        <h3>💬 Messagerie</h3>
+        <ol>
+            <li>Cliquer sur <strong>"Ouvrir"</strong> dans le tableau de bord</li>
+            <li>Sélectionner une conversation</li>
+            <li>Taper un message et envoyer</li>
+        </ol>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
