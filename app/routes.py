@@ -301,3 +301,30 @@ def profil():
                          utilisateur=utilisateur,
                          filieres=filieres,
                          matieres=matieres)
+# Recherche d'annonces
+@main.route('/annonces')
+def liste_annonces():
+    if 'utilisateur_id' not in session:
+        return redirect(url_for('main.connexion'))
+    
+    type_filtre = request.args.get('type', '')
+    matiere_filtre = request.args.get('matiere_id', '')
+    
+    query = Annonce.query.filter_by(est_active=True).filter(
+        Annonce.utilisateur_id != session['utilisateur_id']
+    )
+    
+    if type_filtre:
+        query = query.filter_by(type_annonce=type_filtre)
+    
+    if matiere_filtre:
+        query = query.filter_by(matiere_id=matiere_filtre)
+    
+    annonces = query.order_by(Annonce.date_creation.desc()).all()
+    matieres = Matiere.query.all()
+    
+    return render_template('liste_annonces.html',
+                         annonces=annonces,
+                         matieres=matieres,
+                         type_filtre=type_filtre,
+                         matiere_filtre=matiere_filtre)
