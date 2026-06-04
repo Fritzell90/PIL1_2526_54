@@ -75,8 +75,28 @@ def deconnexion():
 def tableau_de_bord():
     if 'utilisateur_id' not in session:
         return redirect(url_for('main.connexion'))
+    
     utilisateur = Utilisateur.query.get(session['utilisateur_id'])
-    return render_template('tableau_de_bord.html', utilisateur=utilisateur)
+    
+    # Statistiques
+    nb_annonces = Annonce.query.filter_by(
+        utilisateur_id=session['utilisateur_id'],
+        est_active=True
+    ).count()
+    
+    nb_conversations = ParticipantConversation.query.filter_by(
+        utilisateur_id=session['utilisateur_id']
+    ).count()
+    
+    nb_utilisateurs = Utilisateur.query.filter(
+        Utilisateur.id != session['utilisateur_id']
+    ).count()
+    
+    return render_template('tableau_de_bord.html', 
+                         utilisateur=utilisateur,
+                         nb_annonces=nb_annonces,
+                         nb_conversations=nb_conversations,
+                         nb_utilisateurs=nb_utilisateurs)
 # Publier une annonce
 @main.route('/annonce', methods=['GET', 'POST'])
 def annonce():
