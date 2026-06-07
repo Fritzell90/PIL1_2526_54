@@ -14,7 +14,10 @@ def create_app():
     # Configuration
     app.config['SECRET_KEY'] = 'ifri_mentorlink_secret_2026'
     import os
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql://postgres:Frit9074%40@127.0.0.1:5432/ifri_mentorlink')
+    database_url = os.environ.get('DATABASE_URL', 'postgresql://postgres:Frit9074%40@127.0.0.1:5432/ifri_mentorlink')
+    if database_url.startswith('postgres://'):
+        database_url = database_url.replace('postgres://', 'postgresql://', 1)
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_url
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
    # Initialisation des extensions
