@@ -15,10 +15,14 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Frit9074%40@127.0.0.1:5432/ifri_mentorlink'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
-    # Initialisation des extensions
+   # Initialisation des extensions
     db.init_app(app)
     bcrypt.init_app(app)
     socketio.init_app(app)
+
+    # Créer les tables automatiquement
+    with app.app_context():
+        db.create_all()
     
     # Enregistrement des routes
     from app.routes import main
