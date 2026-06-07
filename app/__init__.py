@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -12,7 +13,8 @@ def create_app():
     
     # Configuration
     app.config['SECRET_KEY'] = 'ifri_mentorlink_secret_2026'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Frit9074%40@127.0.0.1:5432/ifri_mentorlink'
+    import os
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql://postgres:Frit9074%40@127.0.0.1:5432/ifri_mentorlink')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
    # Initialisation des extensions
