@@ -90,12 +90,17 @@ def tableau_de_bord():
     nb_utilisateurs = Utilisateur.query.filter(
         Utilisateur.id != session['utilisateur_id']
     ).count()
+    mes_annonces = Annonce.query.filter_by(
+    utilisateur_id=session['utilisateur_id'],
+    est_active=True
+).all()
     
     return render_template('tableau_de_bord.html', 
-                         utilisateur=utilisateur,
-                         nb_annonces=nb_annonces,
-                         nb_conversations=nb_conversations,
-                         nb_utilisateurs=nb_utilisateurs)
+                     utilisateur=utilisateur,
+                     nb_annonces=nb_annonces,
+                     nb_conversations=nb_conversations,
+                     nb_utilisateurs=nb_utilisateurs,
+                     mes_annonces=mes_annonces)
 # Publier une annonce
 @main.route('/annonce', methods=['GET', 'POST'])
 def annonce():
@@ -453,4 +458,30 @@ def modifier_mot_de_passe():
             message = "Mot de passe modifié avec succès ! 🎉"
     
     return render_template('modifier_mot_de_passe.html', 
+                         message=message, erreur=erreur)
+# Réinitialisation du mot de passe
+@main.route('/reinitialiser-mot-de-passe', methods=['GET', 'POST'])
+def reinitialiser_mot_de_passe():
+    message = None
+    erreur = None
+    
+    if request.method == 'POST':
+        email = request.form.get('email')
+        nouveau = request.form.get('nouveau_mot_de_passe')
+        confirmation = request.form.get('confirmation')
+        
+        utilisateur = Utilisateur.query.filter_by(email=email).first()
+        
+        if not utilisateur:
+            erreur = "Aucun compte trouvé avec cet email !"
+        elif nouveau != confirmation:
+            erreur = "Les mots de passe ne correspondent pas !"
+        elif len(nouveau) < 6:
+            erreur = "Le mot de passe doit contenir au moins 6 caractères !"
+        else:
+            utilisateur.mot_de_passe_hash = bcrypt.generate_password_hash(nouveau).decode('utf-8')
+            db.session.commit()
+            message = "Mot de passe réinitialisé avec succès ! 🎉"
+    
+    return render_template('reinitialiser_mot_de_passe.html',
                          message=message, erreur=erreur)

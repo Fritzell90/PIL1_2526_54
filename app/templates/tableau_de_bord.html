@@ -72,6 +72,34 @@
         </div>
     </div>
 
+    <!-- Mes annonces -->
+    <div class="card">
+        <h5>📢 Mes annonces</h5>
+        <hr style="border-color: rgba(255,255,255,0.2)">
+        {% if mes_annonces %}
+            {% for annonce in mes_annonces %}
+            <div style="background:rgba(255,255,255,0.05); border-radius:10px; padding:15px; margin-bottom:10px;">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        {% if annonce.type_annonce == 'offre' %}
+                        <span style="background:#28a745; padding:3px 10px; border-radius:20px; font-size:0.8rem;">🎓 Offre</span>
+                        {% else %}
+                        <span style="background:#e94560; padding:3px 10px; border-radius:20px; font-size:0.8rem;">🙋 Demande</span>
+                        {% endif %}
+                        <strong class="ms-2">{{ annonce.matiere.nom if annonce.matiere else 'Matière inconnue' }}</strong>
+                    </div>
+                    <small class="opacity-50">{{ annonce.date_creation.strftime('%d/%m/%Y') }}</small>
+                </div>
+                {% if annonce.description %}
+                <p class="mt-2 mb-0 opacity-75">{{ annonce.description }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="opacity-75">Tu n'as pas encore publié d'annonce. <a href="/annonce" style="color:#e94560;">Publier maintenant</a></p>
+        {% endif %}
+    </div>
+
     <!-- Profil -->
     <div class="card">
         <h5>👤 Mon profil</h5>
