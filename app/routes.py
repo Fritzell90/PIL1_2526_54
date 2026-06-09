@@ -17,6 +17,13 @@ def inscription():
         email = request.form['email']
         telephone = request.form['telephone']
         mot_de_passe = request.form['mot_de_passe']
+        confirmation = request.form.get('confirmation')
+        
+        if mot_de_passe != confirmation:
+            filieres = Filiere.query.all()
+            return render_template('inscription.html', 
+                                 filieres=filieres,
+                                 erreur="Les mots de passe ne correspondent pas !")
 
         # Vérifier si email ou téléphone existe déjà
         if Utilisateur.query.filter_by(email=email).first():
