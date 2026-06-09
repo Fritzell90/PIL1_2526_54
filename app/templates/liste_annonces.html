@@ -1,170 +1,140 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Annonces - IFRI MentorLink</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
-            min-height: 100vh;
-            color: white;
-        }
-        .navbar { background-color: rgba(0,0,0,0.3) !important; }
-        .card {
-            background: rgba(255,255,255,0.1);
-            border: none;
-            border-radius: 15px;
-            padding: 25px;
-            backdrop-filter: blur(10px);
-            margin-bottom: 20px;
-            transition: all 0.3s;
-        }
-        .card:hover {
-            background: rgba(255,255,255,0.15);
-            transform: translateY(-3px);
-        }
-        .filtre-card {
-            background: rgba(255,255,255,0.08);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 25px;
-        }
-        .form-control, .form-select {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.3);
-            color: white;
-        }
-        .form-control:focus, .form-select:focus {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border-color: #e94560;
-            box-shadow: none;
-        }
-        .form-select option { background: #1a1a2e; color: white; }
-        .btn-primary { background-color: #e94560; border: none; }
-        .btn-primary:hover { background-color: #c73652; }
-        .btn-outline-light:hover { background: white; color: #1a1a2e; }
-        .badge-offre { background: #28a745; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; }
-        .badge-demande { background: #e94560; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; }
-        .avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: #e94560;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="/">🎓 IFRI MentorLink</a>
-            <div class="ms-auto">
-                <a href="/tableau-de-bord" class="btn btn-outline-light btn-sm me-2">Tableau de bord</a>
-                <a href="/deconnexion" class="btn btn-outline-light btn-sm">Déconnexion</a>
-            </div>
-        </div>
-    </nav>
+{% extends 'base.html' %}
 
-    <div class="container mt-4">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>📋 Annonces de mentorat</h2>
-            <a href="/annonce" class="btn btn-primary">+ Publier une annonce</a>
-        </div>
+{% block title %}Annonces - IFRI MentorLink{% endblock %}
 
-        <!-- Filtres -->
-        <div class="filtre-card">
-            <form method="GET">
-                <div class="row align-items-end">
-                    <div class="col-md-4 mb-2">
-                        <label class="form-label">Type</label>
-                        <select name="type" class="form-select">
-                            <option value="">Tous les types</option>
-                            <option value="offre" {% if type_filtre == 'offre' %}selected{% endif %}>
-                                🎓 Offres de mentorat
-                            </option>
-                            <option value="demande" {% if type_filtre == 'demande' %}selected{% endif %}>
-                                🙋 Demandes de mentorat
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <label class="form-label">Matière</label>
-                        <select name="matiere_id" class="form-select">
-                            <option value="">Toutes les matières</option>
-                            {% for matiere in matieres %}
-                            <option value="{{ matiere.id }}"
-                                {% if matiere_filtre == matiere.id|string %}selected{% endif %}>
-                                {{ matiere.nom }}
-                            </option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <button type="submit" class="btn btn-primary w-100">
-                            🔍 Filtrer
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
+{% block extra_style %}
+.annonce-card {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+    margin-bottom: 20px;
+    transition: all 0.3s;
+    border-left: 4px solid transparent;
+}
+.annonce-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(233,69,96,0.12);
+    border-left-color: #e94560;
+}
+.badge-offre {
+    background: #f0fff4;
+    color: #38a169;
+    border: 1px solid #c6f6d5;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.badge-demande {
+    background: #fff5f7;
+    color: #e94560;
+    border: 1px solid #fed7e2;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.filtre-card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px 25px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+    margin-bottom: 25px;
+}
+{% endblock %}
 
-        <!-- Liste des annonces -->
-        {% if annonces %}
-            {% for annonce in annonces %}
-            <div class="card">
-                <div class="d-flex align-items-start">
-                    <div class="avatar me-3">
-                        {{ annonce.utilisateur.prenom[0] }}{{ annonce.utilisateur.nom[0] }}
-                    </div>
-                    <div class="flex-grow-1">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <div>
-                                {% if annonce.type_annonce == 'offre' %}
-                                <span class="badge-offre">🎓 Offre de mentorat</span>
-                                {% else %}
-                                <span class="badge-demande">🙋 Demande de mentorat</span>
-                                {% endif %}
-                            </div>
-                            <small class="opacity-50">
-                                {{ annonce.date_creation.strftime('%d/%m/%Y') }}
-                            </small>
-                        </div>
-                        <p class="mb-1 opacity-75">
-                            👤 {{ annonce.utilisateur.prenom }} {{ annonce.utilisateur.nom }}
-                        </p>
-                        <h5 class="mt-2">
-                            📚 {{ annonce.matiere.nom if annonce.matiere else 'Matière inconnue' }}
-                        </h5>
-                        <p class="opacity-75 mb-2">
-                            📍 Format : {{ annonce.format.replace('_', ' ').title() }}
-                        </p>
-                        {% if annonce.description %}
-                        <p class="opacity-75 mb-3">{{ annonce.description }}</p>
-                        {% endif %}
-                        <a href="/conversation/{{ annonce.utilisateur_id }}"
-                           class="btn btn-primary btn-sm">
-                            💬 Contacter
-                        </a>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        {% else %}
-            <div class="text-center mt-5">
-                <div style="font-size:4rem">📋</div>
-                <h4 class="mt-3">Aucune annonce trouvée</h4>
-                <p class="opacity-75">Sois le premier à publier une annonce !</p>
-                <a href="/annonce" class="btn btn-primary mt-2">Publier une annonce</a>
-            </div>
-        {% endif %}
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 style="font-weight:800; color:#1a202c;">📋 Annonces de mentorat</h2>
+            <p class="text-muted mb-0" style="font-size:0.9rem;">Trouve le mentor ou le mentoré qu'il te faut</p>
+        </div>
+        <a href="/annonce" class="btn btn-primary" style="border-radius:10px; font-weight:600;">
+            + Publier une annonce
+        </a>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    <!-- Filtres -->
+    <div class="filtre-card">
+        <form method="GET">
+            <div class="row align-items-end g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Type</label>
+                    <select name="type" class="form-select">
+                        <option value="">Tous les types</option>
+                        <option value="offre" {% if type_filtre == 'offre' %}selected{% endif %}>🎓 Offres de mentorat</option>
+                        <option value="demande" {% if type_filtre == 'demande' %}selected{% endif %}>🙋 Demandes de mentorat</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Matière</label>
+                    <select name="matiere_id" class="form-select">
+                        <option value="">Toutes les matières</option>
+                        {% for matiere in matieres %}
+                        <option value="{{ matiere.id }}"
+                            {% if matiere_filtre == matiere.id|string %}selected{% endif %}>
+                            {{ matiere.nom }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary w-100" style="border-radius:10px;">
+                        🔍 Filtrer
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Annonces -->
+    {% if annonces %}
+        {% for annonce in annonces %}
+        <div class="annonce-card">
+            <div class="d-flex align-items-start gap-3">
+                <div class="avatar" style="width:50px; height:50px; min-width:50px;">
+                    {{ annonce.utilisateur.prenom[0] }}{{ annonce.utilisateur.nom[0] }}
+                </div>
+                <div class="flex-grow-1">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div class="d-flex align-items-center gap-2">
+                            {% if annonce.type_annonce == 'offre' %}
+                            <span class="badge-offre">🎓 Offre de mentorat</span>
+                            {% else %}
+                            <span class="badge-demande">🙋 Demande de mentorat</span>
+                            {% endif %}
+                            <span style="font-weight:600; color:#1a202c;">
+                                {{ annonce.utilisateur.prenom }} {{ annonce.utilisateur.nom }}
+                            </span>
+                        </div>
+                        <small class="text-muted">{{ annonce.date_creation.strftime('%d/%m/%Y') }}</small>
+                    </div>
+                    <h5 style="font-weight:700; color:#1a202c; margin-bottom:8px;">
+                        📚 {{ annonce.matiere.nom if annonce.matiere else 'Matière inconnue' }}
+                    </h5>
+                    <p class="text-muted mb-3" style="font-size:0.9rem;">
+                        📍 Format : {{ annonce.format.replace('_', ' ').title() }}
+                    </p>
+                    {% if annonce.description %}
+                    <p style="color:#4a5568; font-size:0.9rem; margin-bottom:15px;">{{ annonce.description }}</p>
+                    {% endif %}
+                    <a href="/conversation/{{ annonce.utilisateur_id }}"
+                       class="btn btn-primary btn-sm" style="border-radius:8px;">
+                        💬 Contacter
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="text-center py-5">
+            <div style="font-size:4rem; margin-bottom:15px;">📋</div>
+            <h4 style="font-weight:700; color:#1a202c;">Aucune annonce trouvée</h4>
+            <p class="text-muted">Sois le premier à publier une annonce !</p>
+            <a href="/annonce" class="btn btn-primary mt-2" style="border-radius:10px;">Publier une annonce</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
