@@ -101,13 +101,63 @@ def tableau_de_bord():
     utilisateur_id=session['utilisateur_id'],
     est_active=True
 ).all()
+    # Top 3 matchs automatiques
+    tous_utilisateurs = Utilisateur.query.filter(
+        Utilisateur.id != session['utilisateur_id']
+    ).all()
+
+    top_matchs = []
+    for autre in tous_utilisateurs:
+        score = 0
+        
+        if utilisateur.filiere_id and autre.filiere_id:
+            if utilisateur.filiere_id == autre.filiere_id:
+                score += 20
+        
+        if utilisateur.niveau_etudes and autre.niveau_etudes:
+            if utilisateur.niveau_etudes == autre.niveau_etudes:
+                score += 10
+        
+        mes_lacunes = LacuneUtilisateur.query.filter_by(
+            utilisateur_id=session['utilisateur_id']
+        ).all()
+        mes_lacunes_ids = [l.matiere_id for l in mes_lacunes]
+        
+        ses_competences = CompetenceUtilisateur.query.filter_by(
+            utilisateur_id=autre.id
+        ).all()
+        ses_competences_ids = [c.matiere_id for c in ses_competences]
+        
+        matieres_communes = set(mes_lacunes_ids) & set(ses_competences_ids)
+        if matieres_communes:
+            score += min(len(matieres_communes) * 15, 30)
+        
+        annonces = Annonce.query.filter_by(
+            utilisateur_id=autre.id,
+            est_active=True
+        ).count()
+        if annonces > 0:
+            score += 20
+        
+        if autre.bio and autre.filiere_id and autre.niveau_etudes:
+            score += 20
+        
+        if score > 0:
+            top_matchs.append({
+                'utilisateur': autre,
+                'score': min(score, 100)
+            })
+
+    top_matchs.sort(key=lambda x: x['score'], reverse=True)
+    top_matchs = top_matchs[:3]
     
     return render_template('tableau_de_bord.html', 
                      utilisateur=utilisateur,
                      nb_annonces=nb_annonces,
                      nb_conversations=nb_conversations,
                      nb_utilisateurs=nb_utilisateurs,
-                     mes_annonces=mes_annonces)
+                     mes_annonces=mes_annonces,
+                     top_matchs=top_matchs)
 # Publier une annonce
 @main.route('/annonce', methods=['GET', 'POST'])
 def annonce():
