@@ -67,7 +67,14 @@
                 <div style="font-size:2.5rem">💬</div>
                 <h5 class="mt-2">Messagerie</h5>
                 <p class="opacity-75">Tes conversations en cours</p>
-                <a href="/messagerie" class="btn btn-primary">Ouvrir</a>
+                <a href="/messagerie" class="btn btn-primary" style="position:relative;">
+                    Ouvrir
+                    {% if messages_non_lus > 0 %}
+                    <span style="position:absolute; top:-8px; right:-8px; background:#e94560; color:white; border-radius:50%; width:20px; height:20px; font-size:0.7rem; display:flex; align-items:center; justify-content:center; font-weight:700;">
+                        {{ messages_non_lus }}
+                    </span>
+                    {% endif %}
+                </a>
             </div>
         </div>
     </div>

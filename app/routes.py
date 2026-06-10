@@ -150,6 +150,15 @@ def tableau_de_bord():
 
     top_matchs.sort(key=lambda x: x['score'], reverse=True)
     top_matchs = top_matchs[:3]
+    # Nombre de messages non lus
+    messages_non_lus = Message.query.join(
+        ParticipantConversation,
+        ParticipantConversation.conversation_id == Message.conversation_id
+    ).filter(
+        ParticipantConversation.utilisateur_id == session['utilisateur_id'],
+        Message.expediteur_id != session['utilisateur_id'],
+        Message.est_lu == False
+    ).count()
     
     return render_template('tableau_de_bord.html', 
                      utilisateur=utilisateur,
@@ -157,7 +166,8 @@ def tableau_de_bord():
                      nb_conversations=nb_conversations,
                      nb_utilisateurs=nb_utilisateurs,
                      mes_annonces=mes_annonces,
-                     top_matchs=top_matchs)
+                     top_matchs=top_matchs,
+                     messages_non_lus=messages_non_lus)
 # Publier une annonce
 @main.route('/annonce', methods=['GET', 'POST'])
 def annonce():
